@@ -3,23 +3,28 @@
 const express = require('express'),
   cors = require('express'),
   bodyParser = require('body-parser'),
-  passport = require('passport'),
   morgan = require('morgan'),
-  fs = require('fs');
+  fs = require('fs'),
+  port = process.env.PORT || 3000,
+  passport = require('passport'),
+  strategy = require('./config/passport'),
+  auth = require('./app/routes/auth'),
+  models = require('./db/models');
+
+passport.use(strategy);
 
 const app = express();
 
 app
   //config
-  .set('port', process.env.PORT || 3000)
+  .set('port', port)
   //dependencies
   .use(cors())
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: false }))
   .use(passport.initialize())
   .use(morgan('dev'))
-  //routes 
-
+  //logs 
   .use((req, res, next) => {
     var now = new Date().toString();
     var log = `${now}: ${req.method} ${req.url}`;
@@ -28,13 +33,11 @@ app
     fs.appendFile('server.log', log + '\n');
     next();
   })
+  //routes
+  .use(auth);
 
-  .get('/', (req, res) => {
-    res.status(200).send({
-      hola: false,
-    });
-  })
-
+models.sequelize.sync().then(() => {
   app.listen(app.get('port'), () => {
     console.log(`API running on ${app.get('port')} port`)
   });
+});
