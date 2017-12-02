@@ -7,10 +7,10 @@ const models = require('../helpers/model'),
 
 class Auth{
   signUp(req, res) {
-    if (!req.body) return res.status(500).send({ status: 1, message: 'No se han enviado datos' });
+    if (!req.body) return res.status(200).send({message: "Empty data"});
     models.User.create(req.body).then((user) => {
       res.status(200).send({
-        user,
+        message: "User was created correctly",
       });
     }).catch((err) => {
       res.status(500).send({
@@ -19,7 +19,7 @@ class Auth{
     });
   }
   signIn(req, res){
-    if (!req.body) return res.status(500).send({ status: 1, message: 'No se han enviado datos' });
+    if (!req.body) return res.status(200).send({message: "Empty data"});
     models.User.findOne({
       where: {
         email: req.body.email

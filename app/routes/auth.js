@@ -9,11 +9,6 @@ const express = require('express'),
 routes
 
   .post('/signup', Auth.signUp)
-  .post('/signin', Auth.signIn)
-  .get('/', authenticate, (req, res) => {
-    res.send({
-      message: "Good"
-    })
-  });
+  .post('/signin', Auth.signIn);
 
 module.exports = routes;

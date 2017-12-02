@@ -8,8 +8,9 @@ const express = require('express'),
   port = process.env.PORT || 3000,
   passport = require('passport'),
   strategy = require('./config/passport'),
+  models = require('./db/models'),
   auth = require('./app/routes/auth'),
-  models = require('./db/models');
+  order = require('./app/routes/order');
 
 passport.use(strategy);
 
@@ -34,7 +35,8 @@ app
     next();
   })
   //routes
-  .use(auth);
+  .use(auth)
+  .use('/order', order);
 
 models.sequelize.sync().then(() => {
   app.listen(app.get('port'), () => {
