@@ -4,7 +4,8 @@
   "description": "Physical Store Api",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha test/*/*.test.js",
+    "test-watch": "nodemon server.js --exec \"npm test\"",
     "start": "node server.js"
   },
   "author": "Andrés García",
@@ -23,5 +24,8 @@
     "pg": "^6.0.0",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^4.0.1"
   }
 }
