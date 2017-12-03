@@ -1,6 +1,7 @@
 'use strict';
 
-const models = require('../helpers/model');
+const models = require('../helpers/model'),
+  getTotally = require('../helpers/order.helper');
 
 class Order{
   create(req, res) {
@@ -120,35 +121,7 @@ class Order{
     }).then((order) => {
       if (!order) return res.status(404).send({ message: "This order doesn't exist" });
       const products = order.product_order;
-      let totally = 0;
-      
-      //Products with disscount
-      let pants = 0, tshirt = 0, pricePants = 0, priceTshirt = 0;
-
-      products.forEach((product) => {
-        if (product.product_order.code === "tshirt") {
-          tshirt++;
-          priceTshirt = product.product_order.price;
-        } else if (product.product_order.code == "pants") {
-          pants++;
-          pricePants = product.product_order.price;
-        } else {
-          totally += product.product_order.price;
-        }
-      })
-
-      if (pants % 2  === 0) {
-        totally += parseInt((pants / 2)) * pricePants;
-      } else {
-        totally += parseInt((pants / 2)) * pricePants + pricePants;
-      }
-
-      if (tshirt >= 3) {
-        totally += tshirt * 19;
-      } else {
-        totally += tshirt * priceTshirt;
-      }
-
+      let totally = getTotally(products);
       res.status(200).send({
         data: totally
       });
