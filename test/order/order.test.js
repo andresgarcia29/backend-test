@@ -96,7 +96,7 @@ describe('Order', () => {
       chai.request(app)
         .get('/order/view/1')
         .end((err, res) => {
-          expect(res).to.have.status(202);
+          expect(res).to.have.status(200);
           expect(res).to.have.header('content-type', 'application/json; charset=utf-8');
           expect(res).to.be.json;
           done();

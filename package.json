@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha test/*/*.test.js",
     "test-watch": "nodemon server.js --exec \"npm test\"",
-    "start": "node server.js"
+    "start": "node server.js",
+    "e2e": "nodemon server.js e2e"
   },
   "author": "Andrés García",
   "license": "MIT",

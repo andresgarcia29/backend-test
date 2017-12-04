@@ -84,17 +84,31 @@ class Order{
         orderId: req.params._id,
         productId: req.body.product
       };
-    models.Products.findById(body.productId).then((product) => {
-      if (!product) return res.status(200).send({message: "This product doesn't exist"});
-      models.OrderProduct.create(body).then((data) => {
-        res.status(200).send({
-          message: `The product has been added`
-        });
-      }).catch((err) => {
-        res.status(500).send({
-          message: err,
-        });
-      });
+    models.Orders.findById(req.params._id).then((ord) => {
+      if (ord.user !== req.user.id) {
+        return false;
+      }
+    }).then((next) => {
+      if (!next){
+        return res.status(200).send({ message: "You are not the owner for this order" });
+      } else {
+        models.Products.findById(body.productId).then((product) => {
+          if (!product) return res.status(200).send({ message: "This product doesn't exist" });
+          models.OrderProduct.create(body).then((data) => {
+            res.status(200).send({
+              message: `The product has been added`
+            });
+          }).catch((err) => {
+            res.status(500).send({
+              message: err,
+            });
+          });
+        }).catch((err) => {
+          res.status(500).send({
+            message: err,
+          });
+        }) 
+      }
     }).catch((err) => {
       res.status(500).send({
         message: err,
