@@ -15,6 +15,11 @@ const express = require('express'),
 passport.use(strategy);
 
 const app = express();
+process.env.NODE_ENV = 'development'; //Change the database for testing "test || development"
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
 
 app
   //config
@@ -24,7 +29,6 @@ app
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: false }))
   .use(passport.initialize())
-  .use(morgan('dev'))
   //logs 
   .use((req, res, next) => {
     var now = new Date().toString();
@@ -36,10 +40,17 @@ app
   })
   //routes
   .use(auth)
-  .use('/order', order);
+  .use('/order', order)
+  .all('*', (req, res)  => {
+    res.status(404).send({
+      message: "Errror 404"
+    });
+  });
 
 models.sequelize.sync().then(() => {
   app.listen(app.get('port'), () => {
     console.log(`API running on ${app.get('port')} port`)
   });
 });
+
+module.exports = app;

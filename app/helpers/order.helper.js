@@ -1,3 +1,5 @@
+'use strict';
+
 function getTotally(products) {
   let totally = 0;
 

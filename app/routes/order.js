@@ -8,7 +8,7 @@ const express = require('express'),
 
 routes
 
-  .get('/view/:_id', authenticate, Order.viewOne)
+  .get('/view/:_id', Order.viewOne)
   .get('/user', authenticate, Order.viewUser)
   .get('/checkout/:_id', authenticate, Order.checkOut)
 

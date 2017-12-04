@@ -5,5 +5,13 @@
     "database": "backend-test",
     "host": "127.0.0.1",
     "dialect": "postgres"
+  },
+  "test": {
+    "username": "andres",
+    "password": "Kalipter,29",
+    "database": "backend-test-test",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "logging": false
   }
 }

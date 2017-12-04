@@ -36,7 +36,7 @@ class Order{
         }
       ]
     }).then((order) => {
-      if (!order) return res.status(404).send({message: "This order doesn't exist"});
+      if (!order) return res.status(202).send({message: "This order doesn't exist"});
       res.status(200).send({
         data: order
       });
