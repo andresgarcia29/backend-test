@@ -16,7 +16,6 @@ const express = require('express'),
 passport.use(strategy);
 
 const app = express();
-process.env.NODE_ENV = 'development'; //Change the database for testing "test || development"
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
