@@ -10,7 +10,8 @@ const express = require('express'),
   strategy = require('./config/passport'),
   models = require('./db/models'),
   auth = require('./app/routes/auth'),
-  order = require('./app/routes/order');
+  order = require('./app/routes/order'),
+  e2e = require('./test/e2e/index');
 
 passport.use(strategy);
 
@@ -50,6 +51,9 @@ app
 models.sequelize.sync().then(() => {
   app.listen(app.get('port'), () => {
     console.log(`API running on ${app.get('port')} port`)
+    if (process.argv.includes("e2e")) {
+      e2e();
+    };
   });
 });
 
